@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procurement Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── ROOT TOKENS ──────────────────────────────── */
+:root {
+  --c-bg:         #08090c;
+  --c-surface:    #0f1117;
+  --c-raised:     #161b26;
+  --c-border:     rgba(255,255,255,0.07);
+  --c-border-md:  rgba(255,255,255,0.12);
+  --c-border-hi:  rgba(255,255,255,0.2);
+  --c-text:       #eef2f8;
+  --c-muted:      #5a6a82;
+  --c-sub:        #8a9bb8;
+  --c-lime:       #00c4a0;
+  --c-lime-dim:   rgba(0,196,160,0.10);
+  --c-lime-glow:  rgba(0,196,160,0.18);
+  --c-blue:       #4f9dff;
+  --c-blue-dim:   rgba(79,157,255,0.1);
+  --c-amber:      #f5a623;
+  --c-amber-dim:  rgba(245,166,35,0.1);
+  --c-rose:       #ff5c7a;
+  --c-rose-dim:   rgba(255,92,122,0.1);
+  --c-violet:     #a77bff;
+  --c-violet-dim: rgba(167,123,255,0.1);
+  --c-cyan:       #38e8c4;
+  --c-cyan-dim:   rgba(56,232,196,0.1);
+  --c-orange:     #ff8c42;
+  --c-orange-dim: rgba(255,140,66,0.1);
+  --c-red:        #ff4d4d;
+  --c-red-dim:    rgba(255,77,77,0.1);
+  --sidebar-w:    260px;
+  --top-h:        64px;
+  --radius-sm:    8px;
+  --radius-md:    12px;
+  --radius-lg:    16px;
+  --radius-xl:    20px;
+  --font-head:    'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+}
+
+[data-theme="light"] {
+  --c-bg:         #f3f5f8;
+  --c-surface:    #ffffff;
+  --c-raised:     #f8fafc;
+  --c-border:     rgba(0,0,0,0.07);
+  --c-border-md:  rgba(0,0,0,0.12);
+  --c-border-hi:  rgba(0,0,0,0.2);
+  --c-text:       #0d1420;
+  --c-muted:      #94a3b8;
+  --c-sub:        #5a6a82;
+  --c-lime:       #00957a;
+  --c-lime-dim:   rgba(0,149,122,0.08);
+  --c-lime-glow:  rgba(0,149,122,0.18);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--c-bg);
+  color: var(--c-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--c-border-md); border-radius: 4px; }
+
+/* ── TOPBAR ──────────────────────────────────── */
+.topbar {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  height: var(--top-h);
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  display: flex; align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.topbar-logo {
+  display: flex; align-items: center; gap: 10px;
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  padding-right: 16px;
+  border-right: 1px solid var(--c-border);
+  height: 100%;
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  background: var(--c-lime);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 60%);
+}
+.logo-mark svg { position: relative; z-index: 1; }
+.logo-text { font-family: var(--font-head); }
+.logo-name { font-size: 12px; font-weight: 700; color: var(--c-text); letter-spacing: -0.2px; line-height: 1.3; }
+.logo-tag  { font-size: 9px; color: var(--c-lime); font-weight: 600; letter-spacing: 0.3px; }
+
+.search-wrap {
+  flex: 1; max-width: 400px;
+  position: relative;
+}
+.search-wrap input {
+  width: 100%;
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 9px 44px 9px 40px;
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+.search-wrap input:focus {
+  border-color: var(--c-lime);
+  background: var(--c-surface);
+}
+.search-wrap input::placeholder { color: var(--c-muted); }
+.search-icon-el {
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--c-muted);
+}
+.search-kbd-el {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px; color: var(--c-muted);
+  background: var(--c-bg);
+  border: 1px solid var(--c-border-md);
+  border-radius: 4px; padding: 2px 5px;
+}
+
+.topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+/* Hamburger button — hidden on desktop */
+.hamburger-btn {
+  display: none;
+  width: 36px; height: 36px;
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: var(--c-sub);
+}
+.hamburger-btn:hover { background: var(--c-border); color: var(--c-text); }
+.hamburger-btn svg { display: block; }
+
+.icon-btn {
+  width: 36px; height: 36px;
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  color: var(--c-sub);
+  font-size: 15px;
+  user-select: none;
+  position: relative;
+}
+.icon-btn:hover { background: var(--c-border); border-color: var(--c-border-md); color: var(--c-text); }
+
+.user-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 5px 10px 5px 5px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.user-chip:hover { background: var(--c-border); border-color: var(--c-border-md); }
+.user-avatar {
+  width: 28px; height: 28px;
+  background: var(--c-lime);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head);
+  font-size: 12px; font-weight: 700;
+  color: #001a15;
+  flex-shrink: 0;
+}
+.user-meta { line-height: 1.2; }
+.user-name-el { font-size: 12px; font-weight: 500; }
+.user-role-el { font-size: 10px; color: var(--c-muted); }
+
+.live-dot {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-family: var(--font-mono);
+  color: var(--c-lime);
+  background: var(--c-lime-dim);
+  border: 1px solid rgba(0,196,160,0.2);
+  border-radius: 20px; padding: 3px 10px;
+}
+.live-dot::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--c-lime);
+  animation: blink 1.2s step-end infinite;
+}
+
+/* ── SIDEBAR ─────────────────────────────────── */
+.sidebar {
+  position: fixed;
+  left: 0; top: var(--top-h); bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--c-surface);
+  border-right: 1px solid var(--c-border);
+  display: flex; flex-direction: column;
+  overflow-y: auto; overflow-x: hidden;
+  z-index: 100;
+  padding: 14px 10px;
+  transition: transform .3s ease;
+}
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--c-border-md); }
+
+/* Overlay backdrop (mobile) */
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  z-index: 99;
+  background: rgba(0,0,0,0.5);
+}
+.sidebar-overlay.visible { display: block; }
+
+.nav-section-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 1.5px;
+  color: var(--c-muted); text-transform: uppercase;
+  padding: 8px 10px 6px;
+  font-family: var(--font-head);
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  color: var(--c-sub);
+  font-size: 13px; font-weight: 400;
+  user-select: none;
+  position: relative;
+}
+.nav-item:hover { background: var(--c-raised); color: var(--c-text); }
+.nav-item.active { background: var(--c-lime-dim); color: var(--c-lime); }
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 3px; background: var(--c-lime);
+  border-radius: 0 3px 3px 0;
+}
+
+.nav-icon-wrap {
+  width: 30px; height: 30px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--c-raised);
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.nav-item.active .nav-icon-wrap { background: var(--c-lime-dim); }
+.nav-item-count {
+  margin-left: auto;
+  font-size: 10px; font-family: var(--font-mono);
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: 10px; padding: 1px 7px;
+  color: var(--c-muted);
+}
+.nav-item.active .nav-item-count { background: var(--c-lime-dim); color: var(--c-lime); border-color: var(--c-lime-dim); }
+
+/* ── MAIN ────────────────────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  margin-top: var(--top-h);
+  padding: 28px 32px;
+  min-height: calc(100vh - var(--top-h));
+}
+
+/* ── HOME ────────────────────────────────────── */
+.home-hero {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 20px;
+}
+.hero-left h1 {
+  font-family: var(--font-head);
+  font-size: 26px; font-weight: 700;
+  letter-spacing: -0.5px; line-height: 1.2;
+  margin-bottom: 6px;
+}
+.hero-left h1 span { color: var(--c-lime); }
+.hero-left p { color: var(--c-sub); font-size: 13px; font-weight: 300; }
+
+.clock-card {
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  min-width: 200px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.clock-date { font-size: 11px; color: var(--c-sub); margin-bottom: 4px; font-weight: 300; }
+.clock-time {
+  font-family: var(--font-mono);
+  font-size: 22px; font-weight: 500;
+  color: var(--c-text);
+  letter-spacing: 2px;
+}
+.clock-pulse {
+  display: inline-block; width: 6px; height: 6px;
+  background: var(--c-lime); border-radius: 50%;
+  margin-right: 8px; margin-bottom: 2px;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity:0; } }
+
+/* STAT STRIP */
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, transform .2s;
+  cursor: default;
+}
+.stat-card:hover { border-color: var(--c-border-md); transform: translateY(-2px); }
+.stat-card::after {
+  content: '';
+  position: absolute;
+  bottom: -30px; right: -30px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--accent, rgba(255,255,255,0.03));
+}
+.stat-label { font-size: 11px; color: var(--c-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-bottom: 10px; font-family: var(--font-head); }
+.stat-value { font-family: var(--font-head); font-size: 28px; font-weight: 700; letter-spacing: -1px; color: var(--c-text); }
+.stat-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500; margin-top: 6px;
+  padding: 2px 8px; border-radius: 20px;
+}
+
+/* SECTION HEADER */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: var(--font-head);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--c-muted);
+}
+.section-pill {
+  font-size: 11px; color: var(--c-sub);
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: 20px; padding: 3px 10px;
+  font-family: var(--font-mono);
+}
+
+/* BENTO GRID */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.bento-card {
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex; flex-direction: column;
+  cursor: pointer;
+  text-decoration: none; color: inherit;
+  transition: border-color .2s, transform .2s, background .2s;
+  position: relative; overflow: hidden;
+  min-height: 120px;
+}
+.bento-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: var(--accent, transparent);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.bento-card:hover {
+  border-color: var(--c-border-md);
+  transform: translateY(-3px);
+  background: var(--c-surface);
+}
+.bento-card:hover::before { opacity: 1; }
+
+.bento-icon {
+  width: 38px; height: 38px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+.bento-label { font-size: 12px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
+.bento-sub   { font-size: 10px; color: var(--c-muted); font-weight: 300; line-height: 1.4; flex: 1; }
+.bento-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid var(--c-border);
+}
+.bento-tag {
+  font-size: 9px; font-family: var(--font-mono); color: var(--c-muted);
+  background: var(--c-bg); border: 1px solid var(--c-border);
+  border-radius: 4px; padding: 2px 6px; text-transform: uppercase;
+}
+.bento-arrow {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-muted); font-size: 12px;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.bento-card:hover .bento-arrow {
+  background: var(--accent, var(--c-lime));
+  color: #001a15;
+  border-color: transparent;
+}
+
+/* MODULE VIEW */
+.module-hero {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--c-border);
+}
+.module-icon-xl {
+  width: 52px; height: 52px;
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  border: 1px solid var(--c-border-md);
+  flex-shrink: 0;
+}
+.module-meta h2 {
+  font-family: var(--font-head);
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  margin-bottom: 4px;
+}
+.module-meta p { font-size: 12px; color: var(--c-muted); font-weight: 300; }
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+.module-doc {
+  background: var(--c-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none; color: inherit;
+  transition: background .15s, border-color .2s, transform .15s;
+  position: relative; overflow: hidden;
+}
+.module-doc::after {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--doc-accent, var(--c-lime));
+  opacity: 0;
+  transition: opacity .2s;
+}
+.module-doc:hover {
+  background: var(--c-surface);
+  border-color: var(--c-border-md);
+  transform: translateX(4px);
+}
+.module-doc:hover::after { opacity: 1; }
+.doc-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  transition: border-color .2s;
+}
+.module-doc:hover .doc-icon { border-color: var(--c-border-md); }
+.doc-info { flex: 1; min-width: 0; }
+.doc-name { font-size: 13px; font-weight: 500; line-height: 1.3; margin-bottom: 4px; }
+.doc-type {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; color: var(--c-muted); font-family: var(--font-mono);
+}
+.doc-type::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #0f9d58;
+  flex-shrink: 0;
+}
+.doc-arrow-btn {
+  width: 30px; height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-muted); font-size: 14px;
+  flex-shrink: 0;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.module-doc:hover .doc-arrow-btn {
+  background: var(--doc-accent, var(--c-lime));
+  color: #001a15;
+  border-color: transparent;
+}
+
+.doc-index {
+  position: absolute; top: 10px; right: 48px;
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--c-border-md);
+}
+
+/* SEARCH RESULTS */
+.search-hero {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.search-badge {
+  background: var(--c-lime-dim); color: var(--c-lime);
+  border: 1px solid rgba(0,196,160,0.2);
+  border-radius: var(--radius-sm);
+  font-size: 10px; font-family: var(--font-mono);
+  padding: 4px 10px;
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--c-muted);
+  margin-bottom: 20px;
+  font-family: var(--font-mono);
+  flex-wrap: wrap;
+}
+.breadcrumb span:last-child { color: var(--c-text); }
+.breadcrumb-sep { color: var(--c-border-md); }
+
+/* FADE ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.anim-up  { animation: fadeUp  .35s cubic-bezier(.22,.68,0,1.2) both; }
+.anim-in  { animation: fadeIn  .25s ease both; }
+.d1 { animation-delay: .05s; }
+.d2 { animation-delay: .10s; }
+.d3 { animation-delay: .15s; }
+.d4 { animation-delay: .20s; }
+.d5 { animation-delay: .25s; }
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — TABLET (max 1024px)
+════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-w: 220px;
+  }
+
+  .bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stat-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .logo-tag { display: none; }
+
+  .search-wrap { max-width: 260px; }
+
+  .main { padding: 20px 20px; }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — MOBILE (max 768px)
+════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  :root {
+    --top-h: 56px;
+  }
+
+  /* Hamburger visible, sidebar hidden off-screen */
+  .hamburger-btn { display: flex; }
+  .topbar-logo { border-right: none; padding-right: 0; width: auto; }
+  .logo-text { display: none; }
+  .live-dot { display: none; }
+  .search-kbd-el { display: none; }
+
+  .search-wrap {
+    max-width: 100%;
+    flex: 1;
+  }
+  .search-wrap input { padding: 8px 12px 8px 36px; font-size: 13px; }
+
+  .sidebar {
+    transform: translateX(-100%);
+    width: 260px;
+    z-index: 300;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  .main {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  /* Hero stack vertically */
+  .home-hero {
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .hero-left h1 { font-size: 20px; }
+  .clock-card { text-align: left; min-width: unset; width: 100%; padding: 12px 16px; }
+  .clock-time { font-size: 18px; letter-spacing: 1px; }
+
+  /* Stats: 2 columns on mobile */
+  .stat-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .stat-card { padding: 14px; }
+  .stat-value { font-size: 22px; }
+  .stat-label { font-size: 10px; margin-bottom: 6px; }
+
+  /* Bento: 2 columns on mobile */
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .bento-card { padding: 14px; min-height: 100px; }
+  .bento-icon { width: 32px; height: 32px; font-size: 15px; margin-bottom: 10px; }
+  .bento-label { font-size: 11px; }
+  .bento-sub { display: none; }
+
+  /* Module grid: single column */
+  .module-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .module-hero { gap: 12px; }
+  .module-meta h2 { font-size: 17px; }
+  .module-icon-xl { width: 44px; height: 44px; font-size: 20px; }
+
+  .doc-icon { width: 38px; height: 38px; font-size: 17px; }
+  .doc-name { font-size: 12px; }
+  .doc-index { display: none; }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — SMALL MOBILE (max 400px)
+════════════════════════════════════════════════ */
+@media (max-width: 400px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .stat-strip { grid-template-columns: repeat(2, 1fr); }
+  .topbar-actions .icon-btn { display: none; }
+  .hero-left h1 { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR OVERLAY ── -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── TOPBAR ── -->
+<header class="topbar">
+  <!-- Hamburger (mobile only) -->
+  <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <line x1="2" y1="5" x2="16" y2="5"/>
+      <line x1="2" y1="9" x2="16" y2="9"/>
+      <line x1="2" y1="13" x2="16" y2="13"/>
+    </svg>
+  </button>
+
+  <div class="topbar-logo">
+    <div class="logo-mark">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <rect x="2" y="2" width="6" height="6" rx="1.5" fill="#001a15"/>
+        <rect x="10" y="2" width="6" height="6" rx="1.5" fill="#001a15" opacity=".6"/>
+        <rect x="2" y="10" width="6" height="6" rx="1.5" fill="#001a15" opacity=".6"/>
+        <rect x="10" y="10" width="6" height="6" rx="1.5" fill="#001a15" opacity=".3"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <div class="logo-name">Procurement Portal</div>
+      <div class="logo-tag">Efficient · Transparent · Integrated</div>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon-el">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+        <circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <line x1="9.5" y1="9.5" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <input type="text" id="searchInput" placeholder="Cari dokumen..." autocomplete="off">
+    <span class="search-kbd-el">⌘K</span>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="live-dot">LIVE</div>
+    <div class="icon-btn" id="themeBtn" title="Toggle theme">
+      <svg id="themeIcon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1.4"/>
+        <line x1="8" y1="1" x2="8" y2="2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="8" y1="13.5" x2="8" y2="15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="1" y1="8" x2="2.5" y2="8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="13.5" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="2.93" y1="2.93" x2="4" y2="4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="12" y1="12" x2="13.07" y2="13.07" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="2.93" y1="13.07" x2="4" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="12" y1="4" x2="13.07" y2="2.93" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar" id="sidebarNav"></nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+  <div id="content"></div>
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════ */
+const MENU = {
+  Finance: {
+    icon: "💳", accent: "#b6f542", bg: "rgba(182,245,66,0.12)",
+    desc: "Payments, invoices & PO monitoring",
+    items: [
+      { name: "Communication Sheet Payment", icon: "📤", tag: "Form", link: "https://docs.google.com/spreadsheets/d/1F5eQfoVuIcVnR8z9MCGotLea9XCwf2OVI9tkdbaeckw/edit?usp=drivesdk" },
+      { name: "Invoice Submission Tracker",   icon: "🧾", tag: "Form", link: "https://docs.google.com/spreadsheets/d/1j3pRLxdeAqemHEXcjuOlQ2BywerVU7jaW1F5RjhcJt4/edit?usp=drivesdk" },
+      { name: "PO Payment Monitoring",        icon: "📊", tag: "Monitor", link: "https://docs.google.com/spreadsheets/d/1swxCR-EpvSgqJPQ5hb3beC6feCqnq0yVZd-GwvUVAhQ/edit?usp=drivesdk" }
+    ]
+  },
+  General: {
+    icon: "📂", accent: "#4f9dff", bg: "rgba(79,157,255,0.12)",
+    desc: "Business trips, site work & references",
+    items: [
+      { name: "Business Trip Order Record", icon: "✈️", tag: "Record", link: "https://docs.google.com/spreadsheets/d/1ai-gv9rmkVX7mIY_6Xid9ezYGx52Y2VUBqQDyCPrYpY/edit?usp=drivesdk" },
+      { name: "Site Work Purchase Note",    icon: "🏗️", tag: "Note",   link: "https://docs.google.com/spreadsheets/d/1F3TqBCTexVYjX0qq1ltD5gxFJEGTrrKl8SC6Q-nvQIU/edit?usp=drivesdk" },
+      { name: "Weight Calculator",          icon: "⚖️", tag: "Tool",   link: "https://docs.google.com/spreadsheets/d/1l7HQhK9h0rlg_bXQcTV3KfCCpC_2m35g5JHTeZO_VUA/edit?usp=drivesdk" },
+      { name: "Update Link MS",             icon: "🔗", tag: "Ref",    link: "https://docs.google.com/spreadsheets/d/1em36Ytr-tSfKik5M-e06UFzGf9p-arP_Q5EKwjXnaI4/edit?usp=drivesdk" },
+      { name: "Purchase Document List",     icon: "📋", tag: "List",   link: "https://docs.google.com/spreadsheets/d/1YPvuCrrDl7YQxFxb27OUKMM-jKfrzR7PWJFgj_M1PQ8/edit?usp=drivesdk" },
+      { name: "Data SIINas",                icon: "🗄️", tag: "Data",   link: "https://docs.google.com/spreadsheets/d/1BcWwlfjsRvvWezHJfNXn4uVitMYUquF-Ie3VKzoFaYw/edit?usp=drivesdk" },
+      { name: "CP Distribution Map",        icon: "🗺️", tag: "Map",    link: "https://docs.google.com/spreadsheets/d/1p1QN-y_QuxtOfqnGsRKBggNWZ7dRpkgzTGR5_YA2kGI/edit?usp=drivesdk" },
+      { name: "Cutting List Format",        icon: "✂️", tag: "Format", link: "https://docs.google.com/spreadsheets/d/1Djood5_RMcQ55TVPW6DpPai5rMZCc7vcDCBLIxXTIlM/edit?usp=drivesdk" }
+    ]
+  },
+  "ISO 9001": {
+    icon: "🛡️", accent: "#a77bff", bg: "rgba(167,123,255,0.12)",
+    desc: "Quality assurance & compliance reports",
+    items: [
+      { name: "ISO 9001 Master Report",      icon: "📜", tag: "QA",     link: "https://docs.google.com/spreadsheets/d/1Zxck7xfRMcuWbcVB9_HeHiS249_10sb6c3Jnvo6-BjY/edit?usp=drivesdk" },
+      { name: "Quality Objectives Tracker",  icon: "🎯", tag: "KPI",    link: "https://docs.google.com/spreadsheets/d/1hCvZivMlbn43m-DRT1s4KG0XK3Xa0ssKGnaePsTIKDA/edit?usp=drivesdk" },
+      { name: "Material Spending Report",    icon: "💰", tag: "Report", link: "https://docs.google.com/spreadsheets/d/1O9U_iwmX8X84-6367z1J_sRYYwHfAod5ZcNZ7QtyX0Q/edit?usp=drivesdk" },
+      { name: "NCR Material Log",            icon: "⚠️", tag: "NCR",   link: "https://docs.google.com/spreadsheets/d/1yM63hixDFhu6R2lTZGkqwASoHnYTsynorxYq82DLz1g/edit?usp=drivesdk" }
+    ]
+  },
+  Logistic: {
+    icon: "🚢", accent: "#f5a623", bg: "rgba(245,166,35,0.12)",
+    desc: "Shipping, HS codes & import tracking",
+    items: [
+      { name: "HS Code Checker (INSW)", icon: "🔎", tag: "External", link: "https://insw.go.id/intr/detail-komoditas" },
+      { name: "Import Status Dashboard", icon: "🌐", tag: "Monitor", link: "https://docs.google.com/spreadsheets/d/1r88DwdKyYX1CbDcjnkH7fEQ6jZpFTACsBC0UsQ26kWE/edit?usp=drivesdk" }
+    ]
+  },
+  "Material Status": {
+    icon: "📦", accent: "#38e8c4", bg: "rgba(56,232,196,0.12)",
+    desc: "Live material tracking per project & vendor",
+    driveFolder: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq",
+    items: [
+      { name: "C0547 — Air Liquid Indonesia",               icon: "🔵", tag: "C-Project", link: "https://docs.google.com/spreadsheets/d/1oifmV9tpM3r23Quopexo2VIWv7F07M_dd5O2SBp8SSI/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "C0555 — Merak Chemical Indonesia",           icon: "🔵", tag: "C-Project", link: "https://docs.google.com/spreadsheets/d/1UGIOX_d7mVF8d_DoI56CyqFmZSVNcj0wHSDzpFiD1pY/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "C0562 — Asahimas Chemical",                  icon: "🔵", tag: "C-Project", link: "https://docs.google.com/spreadsheets/d/1PtlOLiuLtH6pV5CqVVEhs7h1noqag5gzQV3HNy1M5Vc/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "C0565 — Nippon Shokubai Indonesia",          icon: "🔵", tag: "C-Project", link: "https://docs.google.com/spreadsheets/d/1by5uiRauFw6zyArX1a-LR-pJEegsZfMeraB_MVDZHrQ/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "C0XXX — Urgent Case (Waiting Customer PO)",  icon: "🔴", tag: "Urgent",    link: "https://docs.google.com/spreadsheets/d/1aEDCeKPmLYXVIi6btiyDJRFIQV8qq078paNVEL9mGTc/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0058 — Asahimas Chemical",                  icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1Ga1mdQkeNVCmyjZRy7du7Rx27ewPiM0rnlebmPwlcTg/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0059 — Asahimas Chemical",                  icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1bnAxY0pheUztUObND0sNmXqDHSFPWWurnLjrV02a_aE/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0060 — Pupuk Indonesia",                    icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1jGO-S7UOtCNrwgV-5PAtMPo1AqA15LforEOn04P4ry4/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0066 — Asahimas Chemical",                  icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/12YMXRSGBEZDyfjbZ8qjwSUm1_FZr40UNMeLq7MPl45o/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0067 — KPI RU II Dumai",                    icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/150KxPyDL8amCJEtO39AEa-QBFdcNIj9n2si9epLLrOo/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0068 — KPI RU VI Balongan",                 icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1j4MTXrgSKrHmNZhhlHIKXgLk-udAnMO-a-EFG9hgZNw/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0069 — Chandra Asri Pasific",               icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1P6Kdy2xKeCjs5D7F2T-ql3hrwxOfqUUodiTqO8tcZy4/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0070 — Pupuk Sriwidjaja Palembang",         icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1BVnS67RxVAyFuaWAl2oUzq0U4SlWjiZjAFyz-4axP7o/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0071 — KPI RU VI Balongan",                 icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1akzzzjOt7FlX9vTp85mnbfkORMvcUThS5wvJSl14V3c/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0072 — Asahimas Chemical",                  icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1d-6cpsZXiRajULEIZFqull-3dlq12ZzFGQl0VuIEcQQ/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0073 — KPI RU V Balikpapan",                icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1-tNjjP2okE6GAS8-NLXE5CDcVizg8Zlti6hTgFEyBEo/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0074 — KPI RU V Balikpapan",                icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1JNJQzy9wpv58Qzyozxv4GX9bsWUZyIIN0iOpDoCVnvg/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0075 — KPI RU V Balikpapan",                icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/198fwDS5jCqv3C6RqEgsiVpqYs0vIf9xRf0OJecWLyEA/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0076 — KPI RU VI Balongan",                 icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1AObW7cVYbOvyRE3QzWngncnt5WZiQPYyQHms8CrqxY4/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" }
+    ]
+  },
+  Purchase: {
+    icon: "🛒", accent: "#b6f542", bg: "rgba(182,245,66,0.12)",
+    desc: "Requisitions, quotations & purchase orders",
+    items: [
+      { name: "Purchase Project List",       icon: "📑", tag: "List",  link: "https://docs.google.com/spreadsheets/d/1KvWzo6VvcgWnJgR6rib5SxiHlQUW3dIYerE17Psk9Lg/edit?usp=drivesdk" },
+      { name: "Generate MRL & MS",           icon: "⚙️", tag: "Tool",  link: "https://docs.google.com/spreadsheets/d/1o5tL8NOc4cDFn4_kzf5CzLNgQvgZplHm4kcBQn0z3Cw/edit?usp=drivesdk" },
+      { name: "RFQ — Request For Quotation", icon: "📩", tag: "RFQ",   link: "https://docs.google.com/spreadsheets/d/1UXvpGYfPM8rWaFtXpTXMCqfBsztaJQUurlyvMetw9a8/edit?usp=drivesdk" },
+      { name: "PR Material Requisition",     icon: "📝", tag: "PR",    link: "https://docs.google.com/spreadsheets/d/16nNMyL0YbApmttvMVeX-3ekOVLr4yCPzARpOhThMt0Y/edit?usp=drivesdk" },
+      { name: "PR Consumable Requisition",   icon: "🔧", tag: "PR",    link: "https://docs.google.com/spreadsheets/d/1NS5g0bIJiad2YTZHI6fqV-pPmxHsUA1eoqsNwDwAXbI/edit?usp=drivesdk" },
+      { name: "PO — Purchase Order Form",    icon: "✅", tag: "PO",    link: "https://docs.google.com/spreadsheets/d/1-meagzU9VEh850aKUoWTCyueA8_QPbf285N8jiN82gQ/edit?usp=drivesdk" }
+    ]
+  },
+  Warehouse: {
+    icon: "🏭", accent: "#ff5c7a", bg: "rgba(255,92,122,0.12)",
+    desc: "Stock control, inspections & delivery",
+    items: [
+      { name: "RFI — Request For Inspection",    icon: "🔍", tag: "RFI",     link: "https://docs.google.com/spreadsheets/d/1m2QcHIBE3uHOFUthd2slD8-XpcqRyldAbx0TZWOCmq4/edit?usp=drivesdk" },
+      { name: "Stock Material Inventory",        icon: "📦", tag: "Stock",   link: "https://docs.google.com/spreadsheets/d/1_7eOxZDZyA4UApD3dddzga6RGoWjXK7PNUawlxnYNL8/edit?gid=223485245#gid=223485245" },
+      { name: "Stock Welding Rod",               icon: "🔩", tag: "Stock",   link: "https://docs.google.com/spreadsheets/d/1Z7ozcZuKQafwXWL6N1IOQYTBAX1_wjtlvLR_f4q2NfY/edit?gid=1513723200#gid=1513723200" },
+      { name: "Surat Jalan (Delivery Order)",    icon: "🚛", tag: "Delivery",link: "https://docs.google.com/spreadsheets/d/1TjJl_qsTDnsPg0dki1viTixNc6SvZicCwBtste37MRg/edit?usp=drivesdk" },
+      { name: "Project Board LIVE — EDV",        icon: "📡", tag: "LIVE",    link: "https://docs.google.com/spreadsheets/d/1Whfc235imtryHVvANz7-r_QingHy-tSEYJ1FGpi-O2k/edit?gid=0#gid=0" },
+      { name: "L0001–L9999 MS Plant 2 — EDV",   icon: "🏗️", tag: "Plant 2", link: "https://docs.google.com/spreadsheets/d/1dqNHXJrT8OwxOHpvh9nuIXk7L_Erv36xCDMBr9R_k1g/edit?gid=0#gid=0" }
+    ]
+  }
+};
+
+const QUICK = [
+  { icon:"📦", label:"Material Status",           accent:"#38e8c4", cat:"Material Status" },
+  { icon:"🔍", label:"RFI Inspection",            accent:"#ff5c7a", link:"https://docs.google.com/spreadsheets/d/1m2QcHIBE3uHOFUthd2slD8-XpcqRyldAbx0TZWOCmq4/edit?usp=drivesdk" },
+  { icon:"📡", label:"Project Board Live",        accent:"#00c4a0", link:"https://docs.google.com/spreadsheets/d/1Whfc235imtryHVvANz7-r_QingHy-tSEYJ1FGpi-O2k/edit?gid=0#gid=0" },
+  { icon:"🚛", label:"Surat Jalan",               accent:"#f5a623", link:"https://docs.google.com/spreadsheets/d/1TjJl_qsTDnsPg0dki1viTixNc6SvZicCwBtste37MRg/edit?usp=drivesdk" },
+  { icon:"🔧", label:"PR Consumable",             accent:"#4f9dff", link:"https://docs.google.com/spreadsheets/d/1NS5g0bIJiad2YTZHI6fqV-pPmxHsUA1eoqsNwDwAXbI/edit?usp=drivesdk" },
+  { icon:"🔩", label:"Stock Welding Rod",         accent:"#ff8c42", link:"https://docs.google.com/spreadsheets/d/1Z7ozcZuKQafwXWL6N1IOQYTBAX1_wjtlvLR_f4q2NfY/edit?gid=1513723200#gid=1513723200" },
+  { icon:"🌐", label:"Import Status",             accent:"#a77bff", link:"https://docs.google.com/spreadsheets/d/1r88DwdKyYX1CbDcjnkH7fEQ6jZpFTACsBC0UsQ26kWE/edit?usp=drivesdk" },
+  { icon:"⚠️", label:"NCR Material Log",         accent:"#ff4d4d", link:"https://docs.google.com/spreadsheets/d/1yM63hixDFhu6R2lTZGkqwASoHnYTsynorxYq82DLz1g/edit?usp=drivesdk" },
+  { icon:"📦", label:"Stock Material Inventory",   accent:"#00c4a0", link:"https://docs.google.com/spreadsheets/d/1_7eOxZDZyA4UApD3dddzga6RGoWjXK7PNUawlxnYNL8/edit?gid=223485245#gid=223485245" },
+  { icon:"🏗️", label:"Plant 2 MS — EDV",         accent:"#38e8c4", link:"https://docs.google.com/spreadsheets/d/1dqNHXJrT8OwxOHpvh9nuIXk7L_Erv36xCDMBr9R_k1g/edit?gid=0#gid=0" }
+];
+
+/* ═══════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════ */
+let activeNav = null;
+
+function buildSidebar() {
+  const nav = document.getElementById('sidebarNav');
+
+  const homeEl = navItem('⌂', 'Dashboard', () => { setNav(homeEl); loadHome(); closeSidebar(); });
+  nav.appendChild(homeEl);
+
+  const sep = document.createElement('div');
+  sep.className = 'nav-section-label';
+  sep.textContent = 'Modules';
+  nav.appendChild(sep);
+
+  Object.entries(MENU).forEach(([name, d]) => {
+    const el = navItem(d.icon, name, () => { setNav(el); loadModule(name); closeSidebar(); }, d.items.length);
+    nav.appendChild(el);
+  });
+
+  setNav(homeEl);
+}
+
+function navItem(icon, label, fn, count) {
+  const el = document.createElement('div');
+  el.className = 'nav-item';
+  el.innerHTML = `<div class="nav-icon-wrap">${icon}</div><span style="flex:1">${label}</span>${count ? `<span class="nav-item-count">${count}</span>` : ''}`;
+  el.onclick = fn;
+  return el;
+}
+
+function setNav(el) {
+  if (activeNav) activeNav.classList.remove('active');
+  el.classList.add('active'); activeNav = el;
+}
+
+/* ═══════════════════════════════════════════════
+   MOBILE SIDEBAR TOGGLE
+═══════════════════════════════════════════════ */
+function openSidebar() {
+  document.getElementById('sidebarNav').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  document.getElementById('sidebarNav').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('hamburgerBtn').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebarNav');
+  if (sidebar.classList.contains('open')) closeSidebar();
+  else openSidebar();
+});
+
+document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
+
+/* ═══════════════════════════════════════════════
+   CLOCK
+═══════════════════════════════════════════════ */
+function fmtDate() {
+  return new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+function fmtTime() {
+  return new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: false });
+}
+
+/* ═══════════════════════════════════════════════
+   HOME
+═══════════════════════════════════════════════ */
+function loadHome() {
+  const totalDocs = Object.values(MENU).reduce((s, d) => s + d.items.length, 0);
+  const totalMods = Object.keys(MENU).length;
+
+  document.getElementById('content').innerHTML = `
+    <div class="home-hero anim-up">
+      <div class="hero-left">
+        <h1>Selamat datang 👋</h1>
+        <p>Integrated Procurement Hub — kelola semua aktivitas pengadaan dalam satu tempat.</p>
+      </div>
+      <div class="clock-card">
+        <div class="clock-date" id="clkDate">${fmtDate()}</div>
+        <div class="clock-time"><span class="clock-pulse"></span><span id="clkTime">${fmtTime()}</span></div>
+      </div>
+    </div>
+
+    <div class="stat-strip anim-up d1">
+      <div class="stat-card" style="--accent:var(--c-lime-dim)">
+        <div class="stat-label">Total Modules</div>
+        <div class="stat-value">${totalMods}</div>
+        <div class="stat-badge" style="background:var(--c-lime-dim);color:var(--c-lime)">▲ Active</div>
+      </div>
+      <div class="stat-card" style="--accent:var(--c-blue-dim)">
+        <div class="stat-label">Total Dokumen</div>
+        <div class="stat-value">${totalDocs}</div>
+        <div class="stat-badge" style="background:var(--c-blue-dim);color:var(--c-blue)">● All Linked</div>
+      </div>
+      <div class="stat-card" style="--accent:var(--c-cyan-dim)">
+        <div class="stat-label">Material Projects</div>
+        <div class="stat-value">${MENU['Material Status'].items.length}</div>
+        <div class="stat-badge" style="background:var(--c-cyan-dim);color:var(--c-cyan)">📡 Live</div>
+      </div>
+      <div class="stat-card" style="--accent:var(--c-amber-dim)">
+        <div class="stat-label">Quick Access</div>
+        <div class="stat-value">${QUICK.length}</div>
+        <div class="stat-badge" style="background:var(--c-amber-dim);color:var(--c-amber)">⚡ Pinned</div>
+      </div>
+    </div>
+
+    <div class="anim-up d2">
+      <div class="section-header">
+        <div class="section-title">Quick Access</div>
+        <div class="section-pill">${QUICK.length} shortcuts</div>
+      </div>
+      <div class="bento-grid">
+        ${QUICK.map((q) => {
+          const href  = q.link || '#';
+          const click = q.cat ? `onclick="goModule('${q.cat}');return false;"` : '';
+          return `
+          <a href="${href}" ${q.link ? 'target="_blank"' : ''} ${click}
+             class="bento-card" style="--accent:${q.accent}">
+            <div class="bento-icon" style="background:${q.accent}22;color:${q.accent};">${q.icon}</div>
+            <div class="bento-label">${q.label}</div>
+            <div class="bento-sub">Google Spreadsheet</div>
+            <div class="bento-footer">
+              <div class="bento-tag">sheets</div>
+              <div class="bento-arrow">→</div>
+            </div>
+          </a>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  clearInterval(window._clk);
+  window._clk = setInterval(() => {
+    const t = document.getElementById('clkTime');
+    if (t) t.textContent = fmtTime();
+  }, 1000);
+}
+
+/* ═══════════════════════════════════════════════
+   MODULE VIEW
+═══════════════════════════════════════════════ */
+function loadModule(name) {
+  const d = MENU[name];
+  const isMat = name === 'Material Status';
+
+  document.getElementById('content').innerHTML = `
+    <div class="breadcrumb anim-in">
+      <span>Purchasing Portal</span>
+      <span class="breadcrumb-sep">/</span>
+      <span>${name}</span>
+    </div>
+    <div class="module-hero anim-up">
+      <div class="module-icon-xl" style="background:${d.bg};border-color:${d.accent}33">${d.icon}</div>
+      <div class="module-meta">
+        <h2>${name}</h2>
+        <p>${d.desc} · <strong style="color:var(--c-text)">${d.items.length} dokumen</strong></p>
+      </div>
+      ${isMat ? `
+      <a href="${d.driveFolder}" target="_blank" style="
+        margin-left:auto; display:inline-flex; align-items:center; gap:8px;
+        background:var(--c-raised); border:1px solid var(--c-border-md);
+        border-radius:var(--radius-md); padding:9px 16px;
+        text-decoration:none; color:var(--c-text);
+        font-size:12px; font-weight:500; font-family:var(--font-body);
+        transition:background .15s, border-color .15s, color .15s;
+        flex-shrink:0;
+      "
+      onmouseover="this.style.background='rgba(56,232,196,0.12)';this.style.borderColor='rgba(56,232,196,0.35)';this.style.color='#38e8c4'"
+      onmouseout="this.style.background='var(--c-raised)';this.style.borderColor='var(--c-border-md)';this.style.color='var(--c-text)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+        </svg>
+        Open Drive Folder
+      </a>` : ''}
+    </div>
+    <div class="module-grid anim-up d1">
+      ${d.items.map((item, i) => `
+        <div style="position:relative;">
+          <a href="${item.link}" target="_blank" class="module-doc" style="--doc-accent:${d.accent};${isMat ? 'padding-right:120px;' : ''}">
+            <span class="doc-index">#${String(i+1).padStart(2,'0')}</span>
+            <div class="doc-icon">${item.icon}</div>
+            <div class="doc-info">
+              <div class="doc-name">${item.name}</div>
+              <div class="doc-type">${item.tag} · Google Sheets</div>
+            </div>
+            ${!isMat ? '<div class="doc-arrow-btn">↗</div>' : ''}
+          </a>
+          ${isMat ? `
+          <div style="position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;gap:6px;align-items:center;pointer-events:all;">
+            <a href="${item.link}" target="_blank" title="Buka Spreadsheet"
+               style="width:30px;height:30px;border-radius:var(--radius-sm);background:var(--c-bg);border:1px solid var(--c-border);display:flex;align-items:center;justify-content:center;color:var(--c-muted);font-size:14px;text-decoration:none;transition:background .15s,color .15s,border-color .15s;"
+               onmouseover="this.style.background='#38e8c4';this.style.color='#001a15';this.style.borderColor='transparent'"
+               onmouseout="this.style.background='var(--c-bg)';this.style.color='var(--c-muted)';this.style.borderColor='var(--c-border)'">↗</a>
+            <a href="${item.drive}" target="_blank" title="Buka Folder Drive"
+               style="height:30px;padding:0 10px;border-radius:var(--radius-sm);background:var(--c-bg);border:1px solid var(--c-border);display:inline-flex;align-items:center;gap:5px;color:var(--c-muted);font-size:10px;font-family:var(--font-mono);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s,border-color .15s;"
+               onmouseover="this.style.background='rgba(56,232,196,0.12)';this.style.color='#38e8c4';this.style.borderColor='rgba(56,232,196,0.3)'"
+               onmouseout="this.style.background='var(--c-bg)';this.style.color='var(--c-muted)';this.style.borderColor='var(--c-border)'">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              Drive
+            </a>
+          </div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function goModule(name) {
+  document.querySelectorAll('.nav-item').forEach(el => {
+    if (el.querySelector('span')?.textContent.trim() === name) setNav(el);
+  });
+  loadModule(name);
+}
+
+/* ═══════════════════════════════════════════════
+   SEARCH
+═══════════════════════════════════════════════ */
+document.getElementById('searchInput').addEventListener('input', function () {
+  const kw = this.value.trim().toLowerCase();
+  if (!kw) { loadHome(); return; }
+  const res = [];
+  Object.entries(MENU).forEach(([mod, d]) => {
+    d.items.forEach(item => {
+      if (item.name.toLowerCase().includes(kw) || mod.toLowerCase().includes(kw))
+        res.push({ ...item, mod, accent: d.accent });
+    });
+  });
+  document.getElementById('content').innerHTML = `
+    <div class="search-hero anim-up">
+      <div style="font-size:22px">🔎</div>
+      <div>
+        <h2 style="font-family:var(--font-head);font-size:18px;font-weight:700;letter-spacing:-0.3px">Hasil Pencarian</h2>
+        <p style="font-size:12px;color:var(--c-muted);margin-top:3px;">"${this.value}" — ${res.length} dokumen ditemukan</p>
+      </div>
+      <div class="search-badge">${res.length} result${res.length!==1?'s':''}</div>
+    </div>
+    <div class="module-grid anim-up d1">
+      ${res.length
+        ? res.map((r, i) => `
+          <a href="${r.link}" target="_blank" class="module-doc" style="--doc-accent:${r.accent}">
+            <span class="doc-index">#${String(i+1).padStart(2,'0')}</span>
+            <div class="doc-icon">${r.icon}</div>
+            <div class="doc-info">
+              <div class="doc-name">${r.name}</div>
+              <div class="doc-type">${r.mod} · ${r.tag}</div>
+            </div>
+            <div class="doc-arrow-btn">↗</div>
+          </a>`).join('')
+        : '<p style="padding:24px;color:var(--c-muted);font-size:13px;">Tidak ada dokumen yang cocok.</p>'
+      }
+    </div>
+  `;
+});
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+/* ═══════════════════════════════════════════════
+   THEME
+═══════════════════════════════════════════════ */
+const root = document.documentElement;
+const saved = localStorage.getItem('procure-theme') || 'dark';
+if (saved === 'light') root.setAttribute('data-theme', 'light');
+
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const cur = root.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('procure-theme', next);
+});
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+buildSidebar();
+loadHome();
+</script>
+</body>
+</html>
