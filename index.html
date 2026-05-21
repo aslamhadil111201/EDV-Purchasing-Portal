@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ── ROOT TOKENS ──────────────────────────────── */
 :root {
   --c-bg:         #08090c;
   --c-surface:    #0f1117;
@@ -75,7 +74,6 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--c-border-md); border-radius: 4px; }
 
-/* ── TOPBAR ──────────────────────────────────── */
 .topbar {
   position: fixed; top:0; left:0; right:0; z-index:200;
   height: var(--top-h);
@@ -151,7 +149,6 @@ body {
 
 .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 
-/* Hamburger button — hidden on desktop */
 .hamburger-btn {
   display: none;
   width: 36px; height: 36px;
@@ -220,7 +217,6 @@ body {
   animation: blink 1.2s step-end infinite;
 }
 
-/* ── SIDEBAR ─────────────────────────────────── */
 .sidebar {
   position: fixed;
   left: 0; top: var(--top-h); bottom: 0;
@@ -236,7 +232,6 @@ body {
 .sidebar::-webkit-scrollbar { width: 3px; }
 .sidebar::-webkit-scrollbar-thumb { background: var(--c-border-md); }
 
-/* Overlay backdrop (mobile) */
 .sidebar-overlay {
   display: none;
   position: fixed; inset: 0;
@@ -291,7 +286,6 @@ body {
 }
 .nav-item.active .nav-item-count { background: var(--c-lime-dim); color: var(--c-lime); border-color: var(--c-lime-dim); }
 
-/* ── MAIN ────────────────────────────────────── */
 .main {
   margin-left: var(--sidebar-w);
   margin-top: var(--top-h);
@@ -299,7 +293,6 @@ body {
   min-height: calc(100vh - var(--top-h));
 }
 
-/* ── HOME ────────────────────────────────────── */
 .home-hero {
   display: flex; align-items: flex-start; justify-content: space-between;
   margin-bottom: 32px;
@@ -338,7 +331,6 @@ body {
 }
 @keyframes blink { 50% { opacity:0; } }
 
-/* STAT STRIP */
 .stat-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -372,7 +364,6 @@ body {
   padding: 2px 8px; border-radius: 20px;
 }
 
-/* SECTION HEADER */
 .section-header {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 14px;
@@ -391,7 +382,6 @@ body {
   font-family: var(--font-mono);
 }
 
-/* BENTO GRID */
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -483,20 +473,26 @@ body {
 }
 .module-meta p { font-size: 12px; color: var(--c-muted); font-weight: 300; }
 
+/* ── FIX: module-grid uniform card size ── */
 .module-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+  align-items: stretch;
 }
+
 .module-doc {
   background: var(--c-raised);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg);
-  padding: 16px;
-  display: flex; align-items: center; gap: 14px;
+  padding: 22px 16px 14px 16px;
+  display: flex; align-items: center; gap: 12px;
   text-decoration: none; color: inherit;
   transition: background .15s, border-color .2s, transform .15s;
   position: relative; overflow: hidden;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
 }
 .module-doc::after {
   content: '';
@@ -512,19 +508,25 @@ body {
 }
 .module-doc:hover::after { opacity: 1; }
 .doc-icon {
-  width: 44px; height: 44px;
+  width: 38px; height: 38px;
   border-radius: var(--radius-md);
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
+  font-size: 18px; flex-shrink: 0;
   background: var(--c-bg);
   border: 1px solid var(--c-border);
   transition: border-color .2s;
 }
 .module-doc:hover .doc-icon { border-color: var(--c-border-md); }
-.doc-info { flex: 1; min-width: 0; }
-.doc-name { font-size: 13px; font-weight: 500; line-height: 1.3; margin-bottom: 4px; }
+.doc-info { flex: 1; min-width: 0; overflow: hidden; }
+.doc-name {
+  font-size: 13px; font-weight: 500; line-height: 1.35; margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .doc-type {
-  display: inline-flex; align-items: center; gap: 5px;
+  display: flex; align-items: center; gap: 5px;
   font-size: 10px; color: var(--c-muted); font-family: var(--font-mono);
 }
 .doc-type::before {
@@ -551,12 +553,11 @@ body {
 }
 
 .doc-index {
-  position: absolute; top: 10px; right: 48px;
+  position: absolute; top: 6px; left: 8px;
   font-family: var(--font-mono); font-size: 9px;
-  color: var(--c-border-md);
+  color: var(--c-border-hi);
 }
 
-/* SEARCH RESULTS */
 .search-hero {
   display: flex; align-items: center; gap: 14px; margin-bottom: 24px; flex-wrap: wrap;
 }
@@ -568,7 +569,6 @@ body {
   padding: 4px 10px;
 }
 
-/* BREADCRUMB */
 .breadcrumb {
   display: flex; align-items: center; gap: 8px;
   font-size: 12px; color: var(--c-muted);
@@ -579,7 +579,6 @@ body {
 .breadcrumb span:last-child { color: var(--c-text); }
 .breadcrumb-sep { color: var(--c-border-md); }
 
-/* FADE ANIMATIONS */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -596,111 +595,57 @@ body {
 .d4 { animation-delay: .20s; }
 .d5 { animation-delay: .25s; }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE — TABLET (max 1024px)
-════════════════════════════════════════════════ */
+/* TABLET */
 @media (max-width: 1024px) {
-  :root {
-    --sidebar-w: 220px;
-  }
-
-  .bento-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .stat-strip {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
+  :root { --sidebar-w: 220px; }
+  .bento-grid { grid-template-columns: repeat(3, 1fr); }
+  .module-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-strip { grid-template-columns: repeat(2, 1fr); }
   .logo-tag { display: none; }
-
   .search-wrap { max-width: 260px; }
-
   .main { padding: 20px 20px; }
 }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE — MOBILE (max 768px)
-════════════════════════════════════════════════ */
+/* MOBILE */
 @media (max-width: 768px) {
-  :root {
-    --top-h: 56px;
-  }
-
-  /* Hamburger visible, sidebar hidden off-screen */
+  :root { --top-h: 56px; }
   .hamburger-btn { display: flex; }
   .topbar-logo { border-right: none; padding-right: 0; width: auto; }
   .logo-text { display: none; }
   .live-dot { display: none; }
   .search-kbd-el { display: none; }
-
-  .search-wrap {
-    max-width: 100%;
-    flex: 1;
-  }
+  .search-wrap { max-width: 100%; flex: 1; }
   .search-wrap input { padding: 8px 12px 8px 36px; font-size: 13px; }
-
   .sidebar {
     transform: translateX(-100%);
-    width: 260px;
-    z-index: 300;
+    width: 260px; z-index: 300;
     box-shadow: 4px 0 24px rgba(0,0,0,0.4);
   }
   .sidebar.open { transform: translateX(0); }
-
-  .main {
-    margin-left: 0;
-    padding: 16px;
-  }
-
-  /* Hero stack vertically */
-  .home-hero {
-    flex-direction: column;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
+  .main { margin-left: 0; padding: 16px; }
+  .home-hero { flex-direction: column; gap: 14px; margin-bottom: 20px; }
   .hero-left h1 { font-size: 20px; }
   .clock-card { text-align: left; min-width: unset; width: 100%; padding: 12px 16px; }
   .clock-time { font-size: 18px; letter-spacing: 1px; }
-
-  /* Stats: 2 columns on mobile */
-  .stat-strip {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-bottom: 20px;
-  }
+  .stat-strip { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
   .stat-card { padding: 14px; }
   .stat-value { font-size: 22px; }
   .stat-label { font-size: 10px; margin-bottom: 6px; }
-
-  /* Bento: 2 columns on mobile */
-  .bento-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-bottom: 20px;
-  }
+  .bento-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
   .bento-card { padding: 14px; min-height: 100px; }
   .bento-icon { width: 32px; height: 32px; font-size: 15px; margin-bottom: 10px; }
   .bento-label { font-size: 11px; }
   .bento-sub { display: none; }
-
-  /* Module grid: single column */
-  .module-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .module-grid { grid-template-columns: 1fr; }
+  .module-doc { height: auto; }
   .module-hero { gap: 12px; }
   .module-meta h2 { font-size: 17px; }
   .module-icon-xl { width: 44px; height: 44px; font-size: 20px; }
-
   .doc-icon { width: 38px; height: 38px; font-size: 17px; }
   .doc-name { font-size: 12px; }
   .doc-index { display: none; }
 }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE — SMALL MOBILE (max 400px)
-════════════════════════════════════════════════ */
 @media (max-width: 400px) {
   .bento-grid { grid-template-columns: 1fr; }
   .stat-strip { grid-template-columns: repeat(2, 1fr); }
@@ -711,12 +656,9 @@ body {
 </head>
 <body>
 
-<!-- ── SIDEBAR OVERLAY ── -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<!-- ── TOPBAR ── -->
 <header class="topbar">
-  <!-- Hamburger (mobile only) -->
   <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
       <line x1="2" y1="5" x2="16" y2="5"/>
@@ -769,18 +711,13 @@ body {
   </div>
 </header>
 
-<!-- ── SIDEBAR ── -->
 <nav class="sidebar" id="sidebarNav"></nav>
 
-<!-- ── MAIN ── -->
 <main class="main">
   <div id="content"></div>
 </main>
 
 <script>
-/* ═══════════════════════════════════════════════
-   DATA
-═══════════════════════════════════════════════ */
 const MENU = {
   Finance: {
     icon: "💳", accent: "#b6f542", bg: "rgba(182,245,66,0.12)",
@@ -848,8 +785,8 @@ const MENU = {
       { name: "E0075 — KPI RU V Balikpapan",                icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/198fwDS5jCqv3C6RqEgsiVpqYs0vIf9xRf0OJecWLyEA/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
       { name: "E0076 — KPI RU VI Balongan",                 icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1AObW7cVYbOvyRE3QzWngncnt5WZiQPYyQHms8CrqxY4/edit?usp=drivesdk",               drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
       { name: "E0077 — KPI RU II Dumai",                    icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1zmyUfkO20_1EQ7cihCX681OY1uJpAPnpryjwyeUXbhw/edit?usp=sharing",                drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
-      { name: "E0078 — Asahimas Chemical",                  icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1rPJt4cnbBxdgA094F7G682ErvMNPD1EGLPv3QHNiuXI/edit?usp=sharing",                drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },    
-      { name: "E0079 — Standard Toyo Polymer",              icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1FxG2LLcGc-7geaIvw0yZHQpcnmz5rPOSs8XMKg1utx0/edit?usp=sharing",                drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" }    
+      { name: "E0078 — Asahimas Chemical",                  icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1rPJt4cnbBxdgA094F7G682ErvMNPD1EGLPv3QHNiuXI/edit?usp=sharing",                drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" },
+      { name: "E0079 — Standard Toyo Polymer",              icon: "🟢", tag: "E-Project", link: "https://docs.google.com/spreadsheets/d/1FxG2LLcGc-7geaIvw0yZHQpcnmz5rPOSs8XMKg1utx0/edit?usp=sharing",                drive: "https://drive.google.com/drive/folders/1JSl3YyrYmq4s2SIjgPXaixy0cfWWyKJq" }
     ]
   },
   Purchase: {
@@ -891,27 +828,20 @@ const QUICK = [
   { icon:"🏗️", label:"Plant 2 MS — EDV",         accent:"#38e8c4", link:"https://docs.google.com/spreadsheets/d/1dqNHXJrT8OwxOHpvh9nuIXk7L_Erv36xCDMBr9R_k1g/edit?gid=0#gid=0" }
 ];
 
-/* ═══════════════════════════════════════════════
-   SIDEBAR
-═══════════════════════════════════════════════ */
 let activeNav = null;
 
 function buildSidebar() {
   const nav = document.getElementById('sidebarNav');
-
   const homeEl = navItem('⌂', 'Dashboard', () => { setNav(homeEl); loadHome(); closeSidebar(); });
   nav.appendChild(homeEl);
-
   const sep = document.createElement('div');
   sep.className = 'nav-section-label';
   sep.textContent = 'Modules';
   nav.appendChild(sep);
-
   Object.entries(MENU).forEach(([name, d]) => {
     const el = navItem(d.icon, name, () => { setNav(el); loadModule(name); closeSidebar(); }, d.items.length);
     nav.appendChild(el);
   });
-
   setNav(homeEl);
 }
 
@@ -928,9 +858,6 @@ function setNav(el) {
   el.classList.add('active'); activeNav = el;
 }
 
-/* ═══════════════════════════════════════════════
-   MOBILE SIDEBAR TOGGLE
-═══════════════════════════════════════════════ */
 function openSidebar() {
   document.getElementById('sidebarNav').classList.add('open');
   document.getElementById('sidebarOverlay').classList.add('visible');
@@ -950,9 +877,6 @@ document.getElementById('hamburgerBtn').addEventListener('click', () => {
 
 document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
 
-/* ═══════════════════════════════════════════════
-   CLOCK
-═══════════════════════════════════════════════ */
 function fmtDate() {
   return new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 }
@@ -960,9 +884,6 @@ function fmtTime() {
   return new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: false });
 }
 
-/* ═══════════════════════════════════════════════
-   HOME
-═══════════════════════════════════════════════ */
 function loadHome() {
   const totalDocs = Object.values(MENU).reduce((s, d) => s + d.items.length, 0);
   const totalMods = Object.keys(MENU).length;
@@ -1034,9 +955,6 @@ function loadHome() {
   }, 1000);
 }
 
-/* ═══════════════════════════════════════════════
-   MODULE VIEW
-═══════════════════════════════════════════════ */
 function loadModule(name) {
   const d = MENU[name];
   const isMat = name === 'Material Status';
@@ -1073,8 +991,8 @@ function loadModule(name) {
     </div>
     <div class="module-grid anim-up d1">
       ${d.items.map((item, i) => `
-        <div style="position:relative;">
-          <a href="${item.link}" target="_blank" class="module-doc" style="--doc-accent:${d.accent};${isMat ? 'padding-right:120px;' : ''}">
+        <div style="position:relative;display:flex;flex-direction:column;">
+          <a href="${item.link}" target="_blank" class="module-doc" style="--doc-accent:${d.accent};flex:1;${isMat ? 'padding-right:120px;' : ''}">
             <span class="doc-index">#${String(i+1).padStart(2,'0')}</span>
             <div class="doc-icon">${item.icon}</div>
             <div class="doc-info">
@@ -1110,9 +1028,6 @@ function goModule(name) {
   loadModule(name);
 }
 
-/* ═══════════════════════════════════════════════
-   SEARCH
-═══════════════════════════════════════════════ */
 document.getElementById('searchInput').addEventListener('input', function () {
   const kw = this.value.trim().toLowerCase();
   if (!kw) { loadHome(); return; }
@@ -1157,9 +1072,6 @@ document.addEventListener('keydown', e => {
   }
 });
 
-/* ═══════════════════════════════════════════════
-   THEME
-═══════════════════════════════════════════════ */
 const root = document.documentElement;
 const saved = localStorage.getItem('procure-theme') || 'dark';
 if (saved === 'light') root.setAttribute('data-theme', 'light');
@@ -1171,9 +1083,6 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   localStorage.setItem('procure-theme', next);
 });
 
-/* ═══════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════ */
 buildSidebar();
 loadHome();
 </script>
