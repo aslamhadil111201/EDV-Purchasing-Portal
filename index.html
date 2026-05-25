@@ -473,7 +473,6 @@ body {
 }
 .module-meta p { font-size: 12px; color: var(--c-muted); font-weight: 300; }
 
-/* ── FIX: module-grid uniform card size ── */
 .module-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -595,7 +594,6 @@ body {
 .d4 { animation-delay: .20s; }
 .d5 { animation-delay: .25s; }
 
-/* TABLET */
 @media (max-width: 1024px) {
   :root { --sidebar-w: 220px; }
   .bento-grid { grid-template-columns: repeat(3, 1fr); }
@@ -606,7 +604,6 @@ body {
   .main { padding: 20px 20px; }
 }
 
-/* MOBILE */
 @media (max-width: 768px) {
   :root { --top-h: 56px; }
   .hamburger-btn { display: flex; }
@@ -723,8 +720,8 @@ const MENU = {
     icon: "💳", accent: "#b6f542", bg: "rgba(182,245,66,0.12)",
     desc: "Payments, invoices & PO monitoring",
     items: [
-      { name: "Communication Sheet Payment",  icon: "📤", tag: "Form", link: "https://docs.google.com/spreadsheets/d/1F5eQfoVuIcVnR8z9MCGotLea9XCwf2OVI9tkdbaeckw/edit?usp=drivesdk" },
-      { name: "Invoice Submission Tracker",   icon: "🧾", tag: "Form", link: "https://docs.google.com/spreadsheets/d/1j3pRLxdeAqemHEXcjuOlQ2BywerVU7jaW1F5RjhcJt4/edit?usp=drivesdk" },
+      { name: "Communication Sheet Payment",  icon: "📤", tag: "Form",    link: "https://docs.google.com/spreadsheets/d/1F5eQfoVuIcVnR8z9MCGotLea9XCwf2OVI9tkdbaeckw/edit?usp=drivesdk" },
+      { name: "Invoice Submission Tracker",   icon: "🧾", tag: "Form",    link: "https://docs.google.com/spreadsheets/d/1j3pRLxdeAqemHEXcjuOlQ2BywerVU7jaW1F5RjhcJt4/edit?usp=drivesdk" },
       { name: "PO Payment Monitoring",        icon: "📊", tag: "Monitor", link: "https://docs.google.com/spreadsheets/d/1swxCR-EpvSgqJPQ5hb3beC6feCqnq0yVZd-GwvUVAhQ/edit?usp=drivesdk" }
     ]
   },
@@ -805,27 +802,27 @@ const MENU = {
     icon: "🏭", accent: "#ff5c7a", bg: "rgba(255,92,122,0.12)",
     desc: "Stock control, inspections & delivery",
     items: [
-      { name: "RFI — Request For Inspection",    icon: "🔍", tag: "RFI",     link: "https://docs.google.com/spreadsheets/d/1m2QcHIBE3uHOFUthd2slD8-XpcqRyldAbx0TZWOCmq4/edit?usp=drivesdk" },
-      { name: "Stock Material Inventory",        icon: "📦", tag: "Stock",   link: "https://docs.google.com/spreadsheets/d/1_7eOxZDZyA4UApD3dddzga6RGoWjXK7PNUawlxnYNL8/edit?gid=223485245#gid=223485245" },
-      { name: "Stock Welding Rod",               icon: "🔩", tag: "Stock",   link: "https://docs.google.com/spreadsheets/d/1Z7ozcZuKQafwXWL6N1IOQYTBAX1_wjtlvLR_f4q2NfY/edit?gid=1513723200#gid=1513723200" },
-      { name: "Surat Jalan (Delivery Order)",    icon: "🚛", tag: "Delivery",link: "https://tokki-warehouse-system.vercel.app/delivery" },
-      { name: "Project Board LIVE — EDV",        icon: "📡", tag: "LIVE",    link: "https://docs.google.com/spreadsheets/d/1Whfc235imtryHVvANz7-r_QingHy-tSEYJ1FGpi-O2k/edit?gid=0#gid=0" },
-      { name: "L0001–L9999 MS Plant 2 — EDV",    icon: "🏗️", tag: "Plant 2", link: "https://docs.google.com/spreadsheets/d/1dqNHXJrT8OwxOHpvh9nuIXk7L_Erv36xCDMBr9R_k1g/edit?gid=0#gid=0" }
+      { name: "RFI — Request For Inspection",    icon: "🔍", tag: "RFI",      link: "https://docs.google.com/spreadsheets/d/1m2QcHIBE3uHOFUthd2slD8-XpcqRyldAbx0TZWOCmq4/edit?usp=drivesdk" },
+      { name: "Stock Material Inventory",        icon: "📦", tag: "Stock",    link: "https://docs.google.com/spreadsheets/d/1_7eOxZDZyA4UApD3dddzga6RGoWjXK7PNUawlxnYNL8/edit?gid=223485245#gid=223485245" },
+      { name: "Stock Welding Rod",               icon: "🔩", tag: "Stock",    link: "https://docs.google.com/spreadsheets/d/1Z7ozcZuKQafwXWL6N1IOQYTBAX1_wjtlvLR_f4q2NfY/edit?gid=1513723200#gid=1513723200" },
+      { name: "Surat Jalan (Delivery Order)",    icon: "🚛", tag: "Delivery", sub: "Tokki WMS", link: "https://tokki-warehouse-system.vercel.app/delivery" },
+      { name: "Project Board LIVE — EDV",        icon: "📡", tag: "LIVE",     link: "https://docs.google.com/spreadsheets/d/1Whfc235imtryHVvANz7-r_QingHy-tSEYJ1FGpi-O2k/edit?gid=0#gid=0" },
+      { name: "L0001–L9999 MS Plant 2 — EDV",    icon: "🏗️", tag: "Plant 2",  link: "https://docs.google.com/spreadsheets/d/1dqNHXJrT8OwxOHpvh9nuIXk7L_Erv36xCDMBr9R_k1g/edit?gid=0#gid=0" }
     ]
   }
 };
 
 const QUICK = [
-  { icon:"📦", label:"Material Status",           accent:"#38e8c4", cat:"Material Status" },
-  { icon:"🔍", label:"RFI Inspection",            accent:"#ff5c7a", link:"https://docs.google.com/spreadsheets/d/1m2QcHIBE3uHOFUthd2slD8-XpcqRyldAbx0TZWOCmq4/edit?usp=drivesdk" },
-  { icon:"📡", label:"Project Board Live",        accent:"#00c4a0", link:"https://docs.google.com/spreadsheets/d/1Whfc235imtryHVvANz7-r_QingHy-tSEYJ1FGpi-O2k/edit?gid=0#gid=0" },
-  { icon:"🚛", label:"Surat Jalan",               accent:"#f5a623", link:"https://tokki-warehouse-system.vercel.app/delivery" },
-  { icon:"🔧", label:"PR Consumable",             accent:"#4f9dff", link:"https://docs.google.com/spreadsheets/d/1NS5g0bIJiad2YTZHI6fqV-pPmxHsUA1eoqsNwDwAXbI/edit?usp=drivesdk" },
-  { icon:"🔩", label:"Stock Welding Rod",         accent:"#ff8c42", link:"https://docs.google.com/spreadsheets/d/1Z7ozcZuKQafwXWL6N1IOQYTBAX1_wjtlvLR_f4q2NfY/edit?gid=1513723200#gid=1513723200" },
-  { icon:"🌐", label:"Import Status",             accent:"#a77bff", link:"https://docs.google.com/spreadsheets/d/1r88DwdKyYX1CbDcjnkH7fEQ6jZpFTACsBC0UsQ26kWE/edit?usp=drivesdk" },
-  { icon:"⚠️", label:"NCR Material Log",         accent:"#ff4d4d", link:"https://docs.google.com/spreadsheets/d/1yM63hixDFhu6R2lTZGkqwASoHnYTsynorxYq82DLz1g/edit?usp=drivesdk" },
-  { icon:"📦", label:"Stock Material Inventory",   accent:"#00c4a0", link:"https://docs.google.com/spreadsheets/d/1_7eOxZDZyA4UApD3dddzga6RGoWjXK7PNUawlxnYNL8/edit?gid=223485245#gid=223485245" },
-  { icon:"🏗️", label:"Plant 2 MS — EDV",         accent:"#38e8c4", link:"https://docs.google.com/spreadsheets/d/1dqNHXJrT8OwxOHpvh9nuIXk7L_Erv36xCDMBr9R_k1g/edit?gid=0#gid=0" }
+  { icon:"📦", label:"Material Status",            accent:"#38e8c4", cat:"Material Status",  sub:"22 Live Projects",       tag:"status" },
+  { icon:"🔍", label:"RFI Inspection",             accent:"#ff5c7a", link:"https://docs.google.com/spreadsheets/d/1m2QcHIBE3uHOFUthd2slD8-XpcqRyldAbx0TZWOCmq4/edit?usp=drivesdk", sub:"Request For Inspection", tag:"rfi" },
+  { icon:"📡", label:"Project Board Live",         accent:"#00c4a0", link:"https://docs.google.com/spreadsheets/d/1Whfc235imtryHVvANz7-r_QingHy-tSEYJ1FGpi-O2k/edit?gid=0#gid=0", sub:"EDV Live Board",          tag:"live" },
+  { icon:"🚛", label:"Surat Jalan",                accent:"#f5a623", link:"https://tokki-warehouse-system.vercel.app/delivery", sub:"Delivery Order",          tag:"delivery" },
+  { icon:"🔧", label:"PR Consumable",              accent:"#4f9dff", link:"https://docs.google.com/spreadsheets/d/1NS5g0bIJiad2YTZHI6fqV-pPmxHsUA1eoqsNwDwAXbI/edit?usp=drivesdk", sub:"Purchase Requisition",    tag:"pr" },
+  { icon:"🔩", label:"Stock Welding Rod",          accent:"#ff8c42", link:"https://docs.google.com/spreadsheets/d/1Z7ozcZuKQafwXWL6N1IOQYTBAX1_wjtlvLR_f4q2NfY/edit?gid=1513723200#gid=1513723200", sub:"Stock Inventory",         tag:"stock" },
+  { icon:"🌐", label:"Import Status",              accent:"#a77bff", link:"https://docs.google.com/spreadsheets/d/1r88DwdKyYX1CbDcjnkH7fEQ6jZpFTACsBC0UsQ26kWE/edit?usp=drivesdk", sub:"Logistic Monitor",        tag:"import" },
+  { icon:"⚠️", label:"NCR Material Log",          accent:"#ff4d4d", link:"https://docs.google.com/spreadsheets/d/1yM63hixDFhu6R2lTZGkqwASoHnYTsynorxYq82DLz1g/edit?usp=drivesdk", sub:"Quality / ISO 9001",      tag:"ncr" },
+  { icon:"📦", label:"Stock Material Inventory",  accent:"#00c4a0", link:"https://docs.google.com/spreadsheets/d/1_7eOxZDZyA4UApD3dddzga6RGoWjXK7PNUawlxnYNL8/edit?gid=223485245#gid=223485245", sub:"Warehouse Stock",         tag:"stock" },
+  { icon:"🏗️", label:"Plant 2 MS — EDV",          accent:"#38e8c4", link:"https://docs.google.com/spreadsheets/d/1dqNHXJrT8OwxOHpvh9nuIXk7L_Erv36xCDMBr9R_k1g/edit?gid=0#gid=0", sub:"MS Plant 2",              tag:"plant-2" }
 ];
 
 let activeNav = null;
@@ -937,9 +934,9 @@ function loadHome() {
              class="bento-card" style="--accent:${q.accent}">
             <div class="bento-icon" style="background:${q.accent}22;color:${q.accent};">${q.icon}</div>
             <div class="bento-label">${q.label}</div>
-            <div class="bento-sub">Google Spreadsheet</div>
+            <div class="bento-sub">${q.sub}</div>
             <div class="bento-footer">
-              <div class="bento-tag">sheets</div>
+              <div class="bento-tag">${q.tag}</div>
               <div class="bento-arrow">→</div>
             </div>
           </a>`;
@@ -997,7 +994,7 @@ function loadModule(name) {
             <div class="doc-icon">${item.icon}</div>
             <div class="doc-info">
               <div class="doc-name">${item.name}</div>
-              <div class="doc-type">${item.tag} · Google Sheets</div>
+              <div class="doc-type">${item.tag} · ${item.sub || 'Google Sheets'}</div>
             </div>
             ${!isMat ? '<div class="doc-arrow-btn">↗</div>' : ''}
           </a>
